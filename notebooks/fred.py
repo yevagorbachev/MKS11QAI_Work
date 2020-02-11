@@ -1,5 +1,5 @@
-from csv import reader, writer
-from sys import argv
+import csv
+import sys
 
 def DoIt(alist=None):
 
@@ -10,26 +10,26 @@ def DoIt(alist=None):
 		# reading
 		contents = []
 		with open(alist[1], 'r') as infile:
-			contents = [line for line in reader(infile)]
+			contents = [line for line in csv.reader(infile)]
 
 		# processing
 		out = []
 		for line in contents:
 			out.append([
-				sum([(1 if fetch_pos_int(element) else 0) for element in line]),
+				sum((1 if fetch_pos_int(element) else 0) for element in line),
 				sum(fetch_pos_int(element) for element in line)
 			])
-		print(out)
+		# print(out)
 
 		# writing
 		with open(alist[2], 'w') as outfile:
-			writer(outfile).writerows(out)
+			csv.writer(outfile).writerows(out)
 
 	else:
-		raise Exception('DoIt must be supplied a list of 3 elements')
+		raise ValueError('DoIt must be supplied a list of 3 elements')
 
 try:
-	DoIt(argv)
-except Exception as ex:
+	DoIt(sys.argv)
+except ValueError as valex:
 	print(ex)
 	raise
