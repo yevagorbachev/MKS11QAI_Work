@@ -1,5 +1,24 @@
-import csv
 import sys
+
+def split_line(line, delimiter):
+	outline = []
+	in_quote = False
+	last = 0
+	for index, char in enumerate(arg):
+		if char == '\"':
+            quote = not quote
+		else:
+			if char == delimiter and not quote:
+				outline.append(arg[last:index])
+            	last = index + 1
+	
+	outline.append(arg[last:])
+    return outline
+
+def split_lines(lines, row_delim, line_delim):
+	result = lines.split(row_delim)
+	result = [split_line(line) for line in result]
+	return result
 
 def DoIt(alist=None):
 
