@@ -4,20 +4,20 @@ def split_line(line, delimiter):
 	outline = []
 	in_quote = False
 	last = 0
-	for index, char in enumerate(arg):
+	for index, char in enumerate(line):
 		if char == '\"':
-            quote = not quote
+			in_quote = not in_quote
 		else:
-			if char == delimiter and not quote:
-				outline.append(arg[last:index])
-            	last = index + 1
-	
-	outline.append(arg[last:])
-    return outline
+			if char == delimiter and not in_quote:
+				outline.append(line[last:index])
+				last = index + 1
+
+	outline.append(line[last:])
+	return outline
 
 def split_lines(lines, row_delim, line_delim):
 	result = lines.split(row_delim)
-	result = [split_line(line) for line in result]
+	result = [split_line(line, line_delim) for line in result]
 	return result
 
 def DoIt(alist=None):
@@ -29,7 +29,8 @@ def DoIt(alist=None):
 		# reading
 		contents = []
 		with open(alist[1], 'r') as infile:
-			contents = [line for line in csv.reader(infile)]
+			contents = infile.read()
+			contents = split_lines(contents, '\n', ',')
 
 		# processing
 		out = []
@@ -42,7 +43,8 @@ def DoIt(alist=None):
 
 		# writing
 		with open(alist[2], 'w') as outfile:
-			csv.writer(outfile).writerows(out)
+			outstr = '\n'.join(','.join(str(entry) for entry in line) for line in out)
+			outfile.write(outstr)
 
 	else:
 		raise ValueError('DoIt must be supplied a list of 3 elements')
