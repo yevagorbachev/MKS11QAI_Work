@@ -42,7 +42,6 @@ class Board:
         for row in state:
             for cell in row:
                 self.state.append(cell)
-        print('\n'.join('|'.join(str(cell) for cell in row) for row in state))
 
     def validate(self): # returns list of inconsistent pairs
         fails = set([])
@@ -53,17 +52,19 @@ class Board:
                         fails.add((clique[first], clique[second]))
         return fails
 
-    def single_swap(self):
-        fails = set([])
-        for clique in Board.cliques:
-            for first in range(8):
-                for second in range(first + 1, 9):
-                    if self.state[clique[first]] == self.state[clique[second]]:
-                        return (clique[first], clique[second])
+    def execute_swap(self, swap):
+        temp = self.state[swap[0]]
+        self.state[swap[0]] = self.state[swap[1]]
+        self.state[swap[1]] = temp
 
 with open(__infile__, 'r') as infile:
-    boards = [Board(line.split(',') for line in board.split('\n')[1:]) for board in infile.read().split('\n\n')]
-    swaps = [board.single_swap() for board in boards]
+    boards = [Board(line.split(',') for line in board.split('\n')[1:]) for board in infile.read().split('\n\n')[:-1]]
+    fails = [board.validate() for board in boards]
+    print(fails)
+    boards[0].execute_swap((2,3))
+    print(boards[0].validate())
+    boards[1].execute_swap((35,44))
+    print(boards[1].validate())
 
-with open(outfile, 'w') as outfile:
-    outfile.write('\n'.join(','.join(swap) for swap in swaps))
+# with open(__outfile__, 'w') as outfile:
+#     outfile.write('\n'.join(str(swap) for swap in swaps))
