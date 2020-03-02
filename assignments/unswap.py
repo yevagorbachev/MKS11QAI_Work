@@ -80,10 +80,23 @@ class Board:
 						return swap
 		raise Exception('No working swap found')
 
+def parse_boards(file):
+	line = file.readline()
+	boards = []
+	while line:
+		buffer = ''
+		if 'incorrect' in line:
+			for i in range(9):
+				buffer += file.readline()
+			buffer = buffer.replace(',','')
+			buffer = buffer.replace('\n','')
+			boards.append(buffer)
+		line = file.readline()
+	return boards
+
+
 with open(__infile__, 'r') as infile:
-	boards = filter(lambda line: line not in [None, '\n', ''], infile.read().split('\n\n'))
-	boards = [''.join(board.split('\n')[1:]).replace(',','') for board in boards]
-	print(boards)
+	boards = parse_boards(infile)
 	objects = [Board(board) for board in boards]
 	swaps = [board.unswap() for board in objects]
 
