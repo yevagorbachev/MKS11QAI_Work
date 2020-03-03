@@ -23,7 +23,7 @@ class Board:
 	
 	def valid_n(self, cell):
 		numbers = range(1,10)
-		for clique in cliques:
+		for clique in Board.cliques:
 			if self.state[cell] in clique:
 				for cell in clique:
 					try:
@@ -42,5 +42,9 @@ def parse_boards(file, status):
 			buffer = buffer.replace('\n','')
 			boards.append(buffer)
 		line = file.readline()
-	
 	return boards
+
+def main():
+	with open(__infile__) as infile:
+		boards = parse_boards(infile, 'incomplete')
+	
