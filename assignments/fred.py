@@ -53,5 +53,5 @@ def DoIt(alist=None):
 try:
 	DoIt(sys.argv)
 except ValueError as valex:
-	print(ex)
+	print(valex)
 	raise
