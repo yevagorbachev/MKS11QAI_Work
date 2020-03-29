@@ -69,8 +69,9 @@ class Board:
 
 	def cell_options(self, cell):
 		numbers = [1 for i in range(10)]
-		for neighbor in self.get_neighbors(cell):
-			numbers[self.state[neighbor]] = 0
+		for neighbor in range(81):
+			if neighbor in self.get_neighbors(cell):
+				numbers[self.state[neighbor]] = 0
 		return [i for i in range(1,10) if numbers[i]]
 
 
