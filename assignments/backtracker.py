@@ -94,7 +94,7 @@ def solve(stack):
 			print(backtracks)
 			return board
 
-		for option in board.nexts:
+		for option in board.nexts[::-1]:
 			new = board.copy()
 			new.state[board.first_empty] = option
 			stack.push(new)
