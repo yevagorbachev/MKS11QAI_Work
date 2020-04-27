@@ -121,8 +121,6 @@ def run_variations(board):
 		for cell in open_cells:
 			run_variations(board.copy().move(cell, next_move))
 
-
-
 run_variations(Board())
 print(counts)
 print(len(boards))
